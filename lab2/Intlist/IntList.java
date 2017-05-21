@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.Formatter;
 
 /**
@@ -81,7 +83,11 @@ public class IntList {
 
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        IntList L = A;
+        while (L.tail != null)
+            L = L.tail;
+        L.tail = B;
+        return A;
     }
 
     /**
@@ -90,7 +96,12 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        if(A == null && B == null)
+            return null;
+        else if(A == null && B != null)
+            return new IntList(B.head, catenate(A, B.tail));
+        else
+            return new IntList(A.head, catenate(A.tail, B));
     }
 
 
