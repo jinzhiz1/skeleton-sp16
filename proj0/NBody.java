@@ -6,7 +6,7 @@ public class NBody {
 	 */
 	public static void main(String[] args) {
 
-		StdAudio.play("./audio/2001.mid");
+		StdAudio.play("./audio/mayday.wav");
 
 		double T = Double.parseDouble(args[0]);
 		double dt = Double.parseDouble(args[1]);
