@@ -15,6 +15,8 @@ public class NBody {
 		drawBackground(radius);
 		drawAllofPlanets(planets);
 
+		StdAudio.play("./audio/2001.mid");
+
 		// Creating an Animation
 		for(double t = 0.0; t <= T; t+=dt) {
 
@@ -50,6 +52,9 @@ public class NBody {
 			/* Shows the drawing to the screen, and waits 10 milliseconds. */	
 			StdDraw.show(10);
 		}
+
+		StdAudio.close();
+		System.exit(0);
 	}
 
 	/*
