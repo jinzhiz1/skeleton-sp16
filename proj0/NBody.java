@@ -1,10 +1,63 @@
 public class NBody {
+
+	public static String imageToDraw = "./images/starfield.jpg";
+	/*
+	 * main method: draw the universe in its starting position
+	 */
+	public static void main(String[] args) {
+		double T = Double.parseDouble(args[0]);
+		double dt = Double.parseDouble(args[1]);
+		String filename = args[2];
+
+		double radius = readRadius(filename);
+		Planet[] planets = readPlanets(filename);
+
+		drawBackground(radius);
+		drawAllofPlanets(planets);
+
+		// Creating an Animation
+		for(double t = 0.0; t <= T; t+=dt) {
+
+			/*
+			 * Create an xForces array and yForces array.
+			 */
+			Double[] xForces = new Double[5];
+			Double[] yForces = new Double[5];
+
+			/*
+			 * Calculate the net x and y forces for each planet, storing
+			 * these in the xForces and yForces arrays respectively.
+			 */
+			for(int i = 0; i < 5; i++) {
+				xForces[i] = planets[i].calcNetForceExertedByX(planets);
+				yForces[i] = planets[i].calcNetForceExertedByY(planets);
+			}
+
+			/*
+			 * Call update on each of the planets. This will update each 
+			 * planet's position, velocity, and acceleration.
+			 */
+			for (int i = 0; i < 5; i++) {
+				planets[i].update(dt, xForces[i], yForces[i]);
+			}
+
+			/*
+			 * Draw the background image and Draw all of the planets.
+			 */
+			drawBackground(radius);
+			drawAllofPlanets(planets);
+
+			/* Shows the drawing to the screen, and waits 10 milliseconds. */	
+			StdDraw.show(10);
+		}
+	}
+
 	/*
 	 * method readRadius: return a double corresponding to the radius of the universe in that file
 	 */
 	public static double readRadius(String filePath) {
 		int line = 0;
-		In in = new In("./data/planets.txt");
+		In in = new In(filePath);
 		double radius = 0;
 		int number = 0;
 
@@ -32,7 +85,7 @@ public class NBody {
 	public static Planet[] readPlanets(String filePath) {
 		Planet[] planetsArray = new Planet[5];
 		int line = 0;
-		In in = new In("./data/planets.txt");
+		In in = new In(filePath);
 		double radius = 0;
 		int number = 0;
 
@@ -60,5 +113,28 @@ public class NBody {
 				break;
 		}
 		return planetsArray;
+	}
+
+	/*
+	 * method drawBackground: draw the background of the universe
+	 */
+	public static void drawBackground(double radius) {
+		/** Sets up the universe so it goes from 
+		  * -radius, -radius up to radius, radius */
+		StdDraw.setScale(-radius,radius);
+
+		/* Clears the drawing window. */
+		StdDraw.clear();
+
+		/* Stamps three copies of starfield.jpg in the center. */
+		StdDraw.picture(0, 0, imageToDraw);
+	}
+
+	/*
+	 * method drawAllofPlanets: draw each one of the planets in the planets array.
+	 */
+	public static void drawAllofPlanets(Planet[] planets) {
+		for(Planet p : planets)
+			p.draw();
 	}
 }
