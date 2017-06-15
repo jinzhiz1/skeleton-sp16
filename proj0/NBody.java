@@ -6,57 +6,78 @@ public class NBody {
 	 */
 	public static void main(String[] args) {
 
-		StdAudio.play("./audio/mayday.wav");
+		
+		// try {
+		// 	Thread.sleep(6000);
+		// } catch (InterruptedException e)
+		// {
+
+		// }
 
 		double T = Double.parseDouble(args[0]);
 		double dt = Double.parseDouble(args[1]);
-		String filename = args[2];
+		String filename = args[2];		
 
 		int numberOfStar = readNumbers(filename);
 		double radius = readRadius(filename);
 		Planet[] planets = readPlanets(filename, numberOfStar);
 
 		drawBackground(radius);
-		drawAllofPlanets(planets);
+		StdDraw.show(10);
+		StdDraw.clear();
+		// drawAllofPlanets(planets);
+
+		StdAudio.play("./audio/mayday.wav");
+
+		// playBGM();
 
 		// Creating an Animation
-		for(double t = 0.0; t <= T; t+=dt) {
+		// for(double t = 0.0; t <= T; t+=dt) {
 
-			/*
-			 * Create an xForces array and yForces array.
-			 */
-			Double[] xForces = new Double[numberOfStar];
-			Double[] yForces = new Double[numberOfStar];
+		// 	/*
+		// 	 * Create an xForces array and yForces array.
+		// 	 */
+		// 	Double[] xForces = new Double[numberOfStar];
+		// 	Double[] yForces = new Double[numberOfStar];
 
-			/*
-			 * Calculate the net x and y forces for each planet, storing
-			 * these in the xForces and yForces arrays respectively.
-			 */
-			for(int i = 0; i < numberOfStar; i++) {
-				xForces[i] = planets[i].calcNetForceExertedByX(planets);
-				yForces[i] = planets[i].calcNetForceExertedByY(planets);
-			}
+		// 	/*
+		// 	 * Calculate the net x and y forces for each planet, storing
+		// 	 * these in the xForces and yForces arrays respectively.
+		// 	 */
+		// 	for(int i = 0; i < numberOfStar; i++) {
+		// 		xForces[i] = planets[i].calcNetForceExertedByX(planets);
+		// 		yForces[i] = planets[i].calcNetForceExertedByY(planets);
+		// 	}
 
-			/*
-			 * Call update on each of the planets. This will update each 
-			 * planet's position, velocity, and acceleration.
-			 */
-			for (int i = 0; i < numberOfStar; i++) {
-				planets[i].update(dt, xForces[i], yForces[i]);
-			}
+		// 	/*
+		// 	 * Call update on each of the planets. This will update each 
+		// 	 * planet's position, velocity, and acceleration.
+		// 	 */
+		// 	for (int i = 0; i < numberOfStar; i++) {
+		// 		planets[i].update(dt, xForces[i], yForces[i]);
+		// 	}
 
-			/*
-			 * Draw the background image and Draw all of the planets.
-			 */
-			drawBackground(radius);
-			drawAllofPlanets(planets);
+		// 	/*
+		// 	 * Draw the background image and Draw all of the planets.
+		// 	 */
+		// 	drawBackground(radius);
+		// 	drawAllofPlanets(planets);
 
-			/* Shows the drawing to the screen, and waits 10 milliseconds. */	
-			StdDraw.show(10);
-		}
+		// 	/* Shows the drawing to the screen, and waits 10 milliseconds. */	
+		// 	StdDraw.show(10);
+		// }
 
-		StdAudio.close();
-		System.exit(0);
+		// StdAudio.close();
+		// System.exit(0);
+	}
+
+	public static void playBGM() {
+
+		Thread thread = new Thread(new playDaemon());
+		thread.setDaemon(false);
+		System.out.println(thread.isDaemon());
+		thread.start();
+		
 	}
 
 	/*
