@@ -35,6 +35,22 @@ public class IntList {
     }
 
     /**
+      * Returns the reverse of the given IntList.
+      * This method is destructive, If given null 
+      * as an input, returns null.
+      */
+    public static IntList reverse(IntList A){
+        if(A == null || A.tail == null)
+            return A;
+        else {
+            IntList reversed = reverse(A.tail);
+            A.tail.tail = A;
+            A.tail = null;
+            return reversed;
+        }
+    }
+
+    /**
      * Returns a list equal to L with all elements squared. Destructive.
      */
     public static void dSquareList(IntList L) {

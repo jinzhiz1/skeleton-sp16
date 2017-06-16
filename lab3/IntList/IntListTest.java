@@ -10,6 +10,7 @@ public class IntListTest {
      * assertEquals knows how to handle IntLists just fine.
      */
 
+
     @Test
     public void testList() {
         IntList one = new IntList(1, null);
@@ -41,6 +42,17 @@ public class IntListTest {
      */
 
     @Test
+    public void testreverse(){
+        IntList L = IntList.list();
+        IntList res = IntList.reverse(L);
+        assertEquals(res, null);
+        IntList onetwothreefour = IntList.list(1,2,3,4);
+        IntList fourthreetwoone = IntList.reverse(onetwothreefour);
+        assertEquals(IntList.list(4,3,2,1),fourthreetwoone);
+        assertEquals(IntList.list(1),onetwothreefour);
+    }
+
+    @Test
     public void testSquareListRecursive() {
         IntList L = IntList.list(1, 2, 3);
         IntList res = IntList.squareListRecursive(L);
@@ -66,8 +78,16 @@ public class IntListTest {
         assertEquals(IntList.list(1, 2, 3), A);
     }
 
+   
+
     /** If you're running this from the command line, you'll need
       * to add a main method. See ArithmeticTest.java for an
       * example. */
+
+     /* Run the unit tests in this file. */
+    public static void main(String... args) {        
+        //@Test(timeout = 1000)
+        jh61b.junit.TestRunner.runTests("failed", IntListTest.class);
+    }
 
 }
