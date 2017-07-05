@@ -1,33 +1,161 @@
-/** Array based list.
- *  @author Josh Hug
- */
+/** This is the Double queue Array List, I implement the circular sentinel topology.
+  * This class includes the addFirst, addLast, isEmpty, size, printDeque, removeFirst,
+  * removeLast, and get method. 
+  * And I use the genric type for this class
+  */
+public class ArrayDeque<Blorp> {
+    private Blorp[] items;
+    private int size;
+    private int last;
+    private int first;
 
-public class AList {
-    /** Creates an empty list. */
-    public AList() {
+    /** Construct an Empty ArrayDeque */
+    public ArrayDeque() {
+        items = (Blorp []) new Object[8];
+        size = 0;
+        first = 0;
+        last = 0;
     }
 
-    /** Inserts X into the back of the list. */
-    public void insertBack(int x) {
+    /** Construct an ArrayDeque with an item */
+    public ArrayDeque(Blorp x) {
+        items = (Blorp []) new Object[8];
+        items[items.length - 1] = x;
+        size = 1;
+        first = 1;
+        last = size - first;
     }
 
-    /** Returns the item from the back of the list. */
-    public int getBack() {
-        return 0;        
-    }
-    /** Gets the ith item in the list (0 is the front). */
-    public int get(int i) {
-        return 0;        
+    /** Adds an item to the front of the Deque */
+    public void addFirst(Blorp x) {
+        if(first >= 0) {
+            first++;
+            items[items.length - first] = x;
+            size++;
+        }
+        else {
+            first++;
+            items[-first] = x;
+            size++;
+        }
     }
 
-    /** Deletes item from back of the list and
-      * returns deleted item. */
-    public int deleteBack() {
-        return 0;
+    /** Adds an item to the back of the Deque */
+    public void addLast(Blorp x) {
+        if(last >= 0) {
+            items[last] = x;
+            last++;
+            size++;
+        }
+        else {
+            items[items.length + last] = x;
+            last++;
+            size++;
+        }
     }
 
-    /** Returns the number of items in the list. */
+    /** Returns true if deque is empty, false otherwise */
+    public boolean isEmpty() {
+        if(size == 0)
+            return true;
+        else
+            return false;
+    }
+
+    /** Returns the number of items in the Deque */
     public int size() {
-        return 0;        
+        return size;
     }
-} 
+    
+    /** Prints the items in the Deque from first to last, separated by a space 
+      * Seperate to three situation, the forth, first < 0 && last < 0 does not
+      * exists.
+      */
+    public void printDeque() {
+        int index = first;
+        if(first >= 0 && last >= 0) {
+            while(index > 0){
+                System.out.print(items[items.length - index] + " ");
+                index--;
+            }
+        
+            while(index < last){
+                System.out.print(items[index] + " ");
+                index++;
+            }
+        }
+
+        else if(first >= 0 && last < 0) {
+            while(index > (-last)){
+                System.out.print(items[items.length - index] + " ");
+                index--;
+            }
+        }
+
+        else if(first < 0 && last >= 0) {
+            while(-index < last) {
+                System.out.print(items[-index] + " ");
+                index--;
+            }
+        }
+        System.out.println();
+    }
+
+    /** Removes and returns the item at the front of the Deque. If no such item
+      * exists, returns null.
+      */
+    public Blorp removeFirst() {
+        if(size == 0)
+            return null;
+        else {
+            first--;
+            size--;
+            if (first >= 0) 
+                return items[items.length - first - 1];
+            else
+                return items[-first-1];
+        }
+    }
+
+    /** Removes and returns the item at the back of the Deque. If no such item
+      * exists, returns null.
+      */
+     public Blorp removeLast() {
+        if(size == 0)
+            return null;
+        else {
+            last--;
+            size--;
+            if(last >= -1)
+                return items[last + 1];
+            else
+                return items[items.length + last + 1];
+        }
+    }
+
+    /** Gets the item at the given index, where 0 is the front, 1 is the next item, 
+      * and so forth. If no such item exists, returns null. Must not alter the deque!
+      */
+    public Blorp get(int index) {
+        if(index >= size)
+            return null;
+        else {
+            int id = first - index;
+            if(id > 0){
+                return items[items.length - id];
+            }
+            else{
+                return items[-id];
+            }
+        }
+    }
+
+    /*
+    public static void main(String[] args) {
+        ArrayDeque<Integer> a1 = new ArrayDeque<Integer>();
+        a1.addFirst(4);
+        a1.addLast(5);
+        a1.printDeque();
+    }
+    */
+}
