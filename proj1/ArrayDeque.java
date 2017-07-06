@@ -26,8 +26,25 @@ public class ArrayDeque<Blorp> {
         last = size - first;
     }
 
+    /** Help method to resize when the size is larger than items.length */
+    private void addResize(int capacity){
+        Blorp[] newItems = (Blorp []) new Object[capacity];
+        if (last > 0) {
+            System.arraycopy(items, 0, newItems, 0, last);
+        }
+        if (first > 0) {
+            System.arraycopy(items, items.length - first, newItems, 
+                newItems.length - first, first); 
+        }
+        items = newItems;
+    }
+
     /** Adds an item to the front of the Deque */
     public void addFirst(Blorp x) {
+        if (size == items.length) {
+            addResize(size * 4);
+        }
+
         if(first >= 0) {
             first++;
             items[items.length - first] = x;
@@ -42,6 +59,10 @@ public class ArrayDeque<Blorp> {
 
     /** Adds an item to the back of the Deque */
     public void addLast(Blorp x) {
+        if (size == items.length) {
+            addResize(size * 4);
+        }
+
         if(last >= 0) {
             items[last] = x;
             last++;
@@ -67,6 +88,11 @@ public class ArrayDeque<Blorp> {
         return size;
     }
     
+    /** Returns the total length of array */
+    public int length() {
+        return items.length;
+    }
+
     /** Prints the items in the Deque from first to last, separated by a space 
       * Seperate to three situation, the forth, first < 0 && last < 0 does not
       * exists.
@@ -101,10 +127,27 @@ public class ArrayDeque<Blorp> {
         System.out.println();
     }
 
+    /** Help method to resize when the size is less than 0.25 * items.length */
+    private void removeResize(int capacity){
+        Blorp[] newItems = (Blorp []) new Object[capacity];
+        if (last > 0) {
+            System.arraycopy(items, 0, newItems, 0, last);
+        }
+        if (first > 0) {
+            System.arraycopy(items, items.length - first, newItems, 
+                newItems.length - first, first); 
+        }
+        items = newItems;
+    }
+
     /** Removes and returns the item at the front of the Deque. If no such item
       * exists, returns null.
       */
     public Blorp removeFirst() {
+        if(size <= (items.length/4)){
+            removeResize(items.length/4);
+        }
+
         if(size == 0)
             return null;
         else {
@@ -121,6 +164,10 @@ public class ArrayDeque<Blorp> {
       * exists, returns null.
       */
      public Blorp removeLast() {
+        if(size < (items.length/4)){
+            removeResize(items.length/4);
+        }
+
         if(size == 0)
             return null;
         else {
